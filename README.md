@@ -1,12 +1,43 @@
-# React + Vite
+# Add Images Interactive
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repository contains the code for the **Add Images Interactive**, designed to help **2nd grade students** practice **basic addition up to 10** using engaging visuals. By combining groups of images, learners strengthen their understanding of addition as “putting together” and “increasing.”
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🔗 Live Interactive
 
-## Expanding the ESLint configuration
+Try it out here:  
+👉 https://content-interactives.github.io/add_images
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🌐 Where This Interactive Is Being Used
+
+This interactive is currently featured in the following locations:
+
+- <img width="20" height="20" alt="image" src="https://github.com/user-attachments/assets/5d12571f-8e12-4441-98ab-c0bc94069a96" /> **CK-12 Intent Response**  
+  - 👉 PRODUCTION: [PENDING]  
+  - 👉 MASTER: [PENDING]  
+- 📘 **CK-12 Flexbooks**  
+  - 👉 [PENDING: Book/lesson link where this interactive appears]  
+
+---
+
+## 📚 Standards & Subjects
+
+This interactive aligns with the following topics and standards:
+
+- **📂 Subject Area**: Elementary Math (Grade 2)  
+- **➕ Topic**: Addition within 10 using objects and images  
+- **📏 Common Core**:  
+  - **CCSS.MATH.CONTENT.1.OA.C.5** – Relate counting to addition and subtraction.  
+  - **CCSS.MATH.CONTENT.1.OA.C.6** – Add and subtract within 20, demonstrating fluency for addition and subtraction within 10.  
+  - **CCSS.MATH.CONTENT.2.OA.B.2** – Fluently add and subtract within 20 using mental strategies.  
+
+---
+
+## 🛠️ Developer Notes
+
+- **Built with**: React, TypeScript, Vite, Tailwind CSS  
+- **Deployed via**: GitHub Pages  
+- **See**: `src/`, `public/`, `package.json`, `vite.config.js`, and `tailwind.config.js` in the repository
