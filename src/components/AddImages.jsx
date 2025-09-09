@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import confetti from 'canvas-confetti';
 import { Container } from './ui/reused-ui/Container.jsx'
+import './AddImages.css';
 
 const AddImages = () => {
     // State Management
@@ -9,6 +10,19 @@ const AddImages = () => {
     const [inputApples, setInputApples] = useState(1);
     const [inputOranges, setInputOranges] = useState(1);
     const [inputAnswer, setInputAnswer] = useState(1);
+    const [isShaking, setIsShaking] = useState(false);
+    const [showAnswer, setShowAnswer] = useState(false);
+
+    // Variable Management
+    const messages = [
+        'Great Job!',
+        'Awesome!',
+        'Fantastic Job!',
+        'That\'s correct!',
+        'Great Work!',
+        'That\'s right!',
+        'You got it!'
+    ]
 
     // Functions
     const generateImages = () => {
@@ -33,6 +47,19 @@ const AddImages = () => {
     const checkAnswer = () => {
         if (inputApples + inputOranges === inputAnswer) {
             confetti({ particleCount: 120, spread: 70, origin: { y: 0.5 } });
+            setShowAnswer(true);
+            setTimeout(() => {
+                setShowAnswer(false);
+                setInputApples(1);
+                setInputOranges(1);
+                setInputAnswer(1);
+                generateImages();
+            }, 3000);
+        } else {
+            // Trigger shake animation for wrong answer
+            setIsShaking(true);
+            // Reset shake animation after it completes
+            setTimeout(() => setIsShaking(false), 600);
         }
     }
 
@@ -45,7 +72,7 @@ const AddImages = () => {
         >
             {/* Intro Text */}
             <div className='text-center text-sm text-gray-500 p-5 pb-3 flex-start'>
-                Use the buttons on the addition equation to match the image addition below!
+                Use the buttons on the addition equation to match the apples and oranges addition below!
             </div>
 
             {/* Images */}
@@ -91,88 +118,108 @@ const AddImages = () => {
 
             {/* Buttons */}
             <div className={`relative bottom-[1%] flex flex-col justify-center items-center w-[100%] gap-2 p-5 pb-2 pt-2 transition-opacity`}>
-                <div className='flex flex-row justify-center items-center gap-2'>
-                    <div className='w-[30%] flex flex-col justify-center items-center gap-2'>
-                        <button 
-                            className='w-6 h-6 flex items-center justify-center rounded-md bg-orange-100 hover:bg-orange-200 text-orange-600 border border-orange-300 shadow-sm'
-                            onClick={() => setInputApples(Math.min(inputApples + 1, 10))}
-                            aria-label='Increase Length'
+                {showAnswer ? (
+                    <>
+                        <div className='text-center text-5xl font-extrabold text-green-600 p-5 pb-2 flex-start'>
+                            {inputApples} + {inputOranges} = {inputAnswer}
+                        </div>
+                        <div className='text-center text-2xl font-extrabold text-green-600 p-5 pb-5 pt-0 flex-start'>
+                            {messages[Math.floor(Math.random() * messages.length)]}
+                        </div>
+                    </>
+                ) : (
+                    <>
+                    <div className='flex flex-row justify-center items-center gap-2'>
+                        <div className='w-[30%] flex flex-col justify-center items-center gap-2'>
+                            <button 
+                                className='w-6 h-6 flex items-center justify-center rounded-md bg-orange-100 hover:bg-orange-200 text-orange-600 border border-orange-300 shadow-sm'
+                                onClick={() => setInputApples(Math.min(inputApples + 1, 10))}
+                                aria-label='Increase Length'
+                                >
+                                ▲
+                            </button>
+                            <input 
+                                type="text" 
+                                readOnly
+                                tabIndex={-1}
+                                value={inputApples}
+                                className='w-[90%] text-center border-2 border-red-400 rounded-lg p-2 focus:outline-none shadow-sm select-none pointer-events-none text-gray-800' 
+                                />
+                            <button 
+                                className='w-6 h-6 flex items-center justify-center rounded-md bg-orange-100 hover:bg-orange-200 text-orange-600 border border-orange-300 shadow-sm'
+                                onClick={() => setInputApples(Math.max(inputApples - 1, 1))}
+                                aria-label='Decrease Length'
                             >
-                            ▲
-                        </button>
-                        <input 
-                            type="text" 
-                            readOnly
-                            tabIndex={-1}
-                            value={inputApples}
-                            className='w-[90%] text-center border-2 border-red-400 rounded-lg p-2 focus:outline-none shadow-sm select-none pointer-events-none text-gray-800' 
+                                ▼
+                            </button>
+                        </div>
+                        <div>
+                            +
+                        </div>
+                        <div className='w-[30%] flex flex-col justify-center items-center gap-2'>
+                            <button 
+                                className='w-6 h-6 flex items-center justify-center rounded-md bg-orange-100 hover:bg-orange-200 text-orange-600 border border-orange-300 shadow-sm'
+                                onClick={() => setInputOranges(Math.min(inputOranges + 1, 10))}
+                                aria-label='Increase Width'
+                            >
+                                ▲
+                            </button>
+                            <input 
+                                type="text" 
+                                readOnly
+                                tabIndex={-1}
+                                value={inputOranges}
+                                className='w-[90%] text-center border-2 border-orange-400 rounded-lg p-2 focus:outline-none shadow-sm select-none pointer-events-none text-gray-800' 
                             />
-                        <button 
-                            className='w-6 h-6 flex items-center justify-center rounded-md bg-orange-100 hover:bg-orange-200 text-orange-600 border border-orange-300 shadow-sm'
-                            onClick={() => setInputApples(Math.max(inputApples - 1, 1))}
-                            aria-label='Decrease Length'
-                        >
-                            ▼
-                        </button>
+                            <button 
+                                className='w-6 h-6 flex items-center justify-center rounded-md bg-orange-100 hover:bg-orange-200 text-orange-600 border border-orange-300 shadow-sm'
+                                onClick={() => setInputOranges(Math.max(inputOranges - 1, 1))}
+                                aria-label='Decrease Width'
+                            >
+                                ▼
+                            </button>
+                        </div>
+                        <div>
+                            =
+                        </div>
+                        <div className='w-[30%] flex flex-col justify-center items-center gap-2'>
+                            <button 
+                                className='w-6 h-6 flex items-center justify-center rounded-md bg-orange-100 hover:bg-orange-200 text-orange-600 border border-orange-300 shadow-sm'
+                                onClick={() => setInputAnswer(Math.min(inputAnswer + 1, 10))}
+                                aria-label='Increase Height'
+                            >
+                                ▲
+                            </button>
+                            <input 
+                                type="text" 
+                                readOnly
+                                tabIndex={-1}
+                                value={inputAnswer}
+                                className='w-[90%] text-center border-2 border-green-400 rounded-lg p-2 focus:outline-none shadow-sm select-none pointer-events-none text-gray-800' 
+                            />
+                            <button 
+                                className='w-6 h-6 flex items-center justify-center rounded-md bg-orange-100 hover:bg-orange-200 text-orange-600 border border-orange-300 shadow-sm'
+                                onClick={() => setInputAnswer(Math.max(inputAnswer - 1, 1))}
+                                aria-label='Decrease Height'
+                            >
+                                ▼
+                            </button>
+                        </div>
                     </div>
-                    <div>
-                        +
-                    </div>
-                    <div className='w-[30%] flex flex-col justify-center items-center gap-2'>
-                        <button 
-                            className='w-6 h-6 flex items-center justify-center rounded-md bg-orange-100 hover:bg-orange-200 text-orange-600 border border-orange-300 shadow-sm'
-                            onClick={() => setInputOranges(Math.min(inputOranges + 1, 10))}
-                            aria-label='Increase Width'
-                        >
-                            ▲
-                        </button>
-                        <input 
-                            type="text" 
-                            readOnly
-                            tabIndex={-1}
-                            value={inputOranges}
-                            className='w-[90%] text-center border-2 border-orange-400 rounded-lg p-2 focus:outline-none shadow-sm select-none pointer-events-none text-gray-800' 
-                        />
-                        <button 
-                            className='w-6 h-6 flex items-center justify-center rounded-md bg-orange-100 hover:bg-orange-200 text-orange-600 border border-orange-300 shadow-sm'
-                            onClick={() => setInputOranges(Math.max(inputOranges - 1, 1))}
-                            aria-label='Decrease Width'
-                        >
-                            ▼
-                        </button>
-                    </div>
-                    <div>
-                        =
-                    </div>
-                    <div className='w-[30%] flex flex-col justify-center items-center gap-2'>
-                        <button 
-                            className='w-6 h-6 flex items-center justify-center rounded-md bg-orange-100 hover:bg-orange-200 text-orange-600 border border-orange-300 shadow-sm'
-                            onClick={() => setInputAnswer(Math.min(inputAnswer + 1, 10))}
-                            aria-label='Increase Height'
-                        >
-                            ▲
-                        </button>
-                        <input 
-                            type="text" 
-                            readOnly
-                            tabIndex={-1}
-                            value={inputAnswer}
-                            className='w-[90%] text-center border-2 border-green-400 rounded-lg p-2 focus:outline-none shadow-sm select-none pointer-events-none text-gray-800' 
-                        />
-                        <button 
-                            className='w-6 h-6 flex items-center justify-center rounded-md bg-orange-100 hover:bg-orange-200 text-orange-600 border border-orange-300 shadow-sm'
-                            onClick={() => setInputAnswer(Math.max(inputAnswer - 1, 1))}
-                            aria-label='Decrease Height'
-                        >
-                            ▼
-                        </button>
-                    </div>
-                </div>
 
-                {/* Check Answer Button */}
-                <div className={`flex justify-center w-full transition-opacity`}>
-                    <button onClick={checkAnswer} className='w-24 md:w-28 lg:w-32 text-center border-2 border-orange-400 bg-yellow-100 hover:bg-orange-200 text-orange-600 rounded-lg p-1 focus:outline-none shadow-sm placeholder-black'>Check!</button>
-                </div>
+                    {/* Check Answer Button */}
+                    <div className={`flex justify-center w-full transition-opacity`}>
+                        <button 
+                            onClick={checkAnswer} 
+                            className={`w-24 md:w-28 lg:w-32 text-center border-2 border-orange-400 bg-yellow-100 hover:bg-orange-200 text-orange-600 rounded-lg p-1 focus:outline-none shadow-sm placeholder-black transition-transform duration-100 ${isShaking ? 'animate-pulse' : ''}`}
+                            style={isShaking ? {
+                                animation: 'shake 0.2s ease-in-out'
+                            } : {}}
+                        >
+                            Check!
+                        </button>
+                    </div>
+                </>)}
             </div>
         </Container>
 )
